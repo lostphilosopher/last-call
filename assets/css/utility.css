@@ -1,0 +1,16 @@
+/*
+ * Utility CSS classes non-project specific
+ */
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
