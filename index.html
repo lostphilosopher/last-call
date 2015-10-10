@@ -3,35 +3,35 @@ layout: default
 ---
 <br />
 <div class="jumbotron">
-	<h1>JEKYLL SITE SKELETON</h1>
-	<div class="row">
-		<div class="col-sm-4">
-			<h2>Posts</h2>
-			<ul>
-		    {% for post in site.posts %}
-		      	<li>
-		          	<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-		      	</li>
-		    {% endfor %}
-			</ul>
-		</div>
-		<div class="col-sm-4">
-			<h2>INCLUDED:</h2>
-			<ul>
-				<li>Jekyll</li>
-				<li>jQuery</li>
-				<li>Bootstrap 3</li>
-				<li>Font Awesome</li>
-			</ul>
-		</div>
-		<div class="col-sm-4">
-			<h2>TESTS:</h2>
-			<ul>
-				<li>If there isn't a big grey background behind this text there is something wrong with the bootstrap installation.</li>
-				<li>If there isn't a check mark here (<i class="fa fa-check"></i>) there is something wrong with the font awesome installation.</li>
-			</ul>
-		</div>
-	</div>
+  <h1>JEKYLL SITE SKELETON</h1>
+  <div class="row">
+    <div class="col-sm-4">
+      <h2>Posts</h2>
+      <ul>
+        {% for post in site.posts %}
+        <li>
+          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-sm-4">
+      <h2>INCLUDED:</h2>
+      <ul>
+        <li>Jekyll</li>
+        <li>jQuery</li>
+        <li>Bootstrap 3</li>
+        <li>Font Awesome</li>
+      </ul>
+    </div>
+    <div class="col-sm-4">
+      <h2>TESTS:</h2>
+      <ul>
+        <li>If there isn't a big grey background behind this text there is something wrong with the bootstrap installation.</li>
+        <li>If there isn't a check mark here (<i class="fa fa-check"></i>) there is something wrong with the font awesome installation.</li>
+      </ul>
+    </div>
+  </div>
   <div class="row">
     <h2>JS Demo</h2>
     <button id="utility-js-demo-button">Toggle (Show/Hide)</button>
