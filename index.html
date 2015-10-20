@@ -1,43 +1,69 @@
 ---
 layout: default
 ---
-<br />
-<div class="jumbotron">
-  <h1>JEKYLL SITE SKELETON</h1>
-  <div class="row">
-    <div class="col-sm-4">
-      <h2>Posts</h2>
-      <ul>
-        {% for post in site.posts %}
-        <li>
-          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="col-sm-4">
-      <h2>INCLUDED:</h2>
-      <ul>
-        <li>Jekyll</li>
-        <li>jQuery</li>
-        <li>Bootstrap 3</li>
-        <li>Font Awesome</li>
-      </ul>
-    </div>
-    <div class="col-sm-4">
-      <h2>TESTS:</h2>
-      <ul>
-        <li>If there isn't a big grey background behind this text there is something wrong with the bootstrap installation.</li>
-        <li>If there isn't a check mark here (<i class="fa fa-check"></i>) there is something wrong with the font awesome installation.</li>
-        <li>If "Toggle (Show/Hide)" doesn't toggle text below the button when clicked there is something wrong with the JS installation.</li>
-      </ul>
+
+<div class='container-fluid'>
+  <div class='row bg-primary text-center'>
+    <div class='col-sm-8 col-sm-offset-2'>
+      <h1>Last Call</h1>
+      <h2>Titles leaving US Netflix in October of 2015 with 7.5 or higher on IMDB.</h2>
     </div>
   </div>
-  <div class="row">
-    <h2>JS Demo</h2>
-    <button id="utility-js-demo-button">Toggle (Show/Hide)</button>
-    <div id="utility-js-demo-target" style="display: none">Toggled!</div>
+  <div class='js-target'>
+  </div>
+  <div class='row bg-primary text-center'>
+    GitHub
   </div>
 </div>
 
-<img src="/assets/images/lorem-ipsum.jpg" class="img-responsive"/>
+<script>
+  var yql_netflix_url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%27http%3A%2F%2Fwww.whats-on-netflix.com%2Fleaving-soon%2Fcomplete-list-of-titles-expiring-from-netflix-us-in-october-2015%2F%27%20and%20xpath%3D%27%2F%2F*%5B%40id%3D%22singlepost%22%5D%2Fdiv%2Farticle%2Fdiv%5B1%5D%2Ful%5B2%5D%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
+
+  var netflix_titles_leaving_soon = jQuery.parseJSON(
+        jQuery.ajax({
+            url: yql_netflix_url, 
+            async: false,
+            dataType: 'json'
+        }).responseText
+  );
+
+  var netflix_titles_leaving_soon_parsed = [];
+
+  $.each(
+    netflix_titles_leaving_soon.query.results.ul.li, 
+    function(i, val) {
+      title = val.replace(/\(.*\)/, '');
+      title = title.replace(',', '');
+      netflix_titles_leaving_soon_parsed.push(title);
+    }
+  );
+
+  var imdb_rating_cutoff = 7.5;
+
+  var netflix_titles_above_cutoff = [];
+
+  $.each(
+    netflix_titles_leaving_soon_parsed,
+    function(i, val) {
+      imdb_data = jQuery.parseJSON(
+        jQuery.ajax({
+            url: 'http://www.omdbapi.com/?t=' + val + '&y=&plot=short&r=json', 
+            async: false,
+            dataType: 'json'
+        }).responseText
+      );
+      if (imdb_data.imdbRating > imdb_rating_cutoff) {
+        title = imdb_data.Title;
+        netflix_titles_above_cutoff.push('<li>' + title + '</li>');
+      }
+    }
+  );
+
+  netflix_titles_above_cutoff = netflix_titles_above_cutoff.join('');
+
+  $(".js-target").append('<ul>' + netflix_titles_above_cutoff + '</ul>');
+
+</script>
+
+
+
